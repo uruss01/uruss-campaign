@@ -37,6 +37,26 @@ function MetricCard({ title, description, icon, value, prefix, accent = 'white',
   </article>;
 }
 
+function RemainingCard({ collection, files, reportedDays }: { collection: number | null; files: number | null; reportedDays: number }) {
+  return <article className="metric-card metric-balance" aria-label="Remaining campaign balance">
+    <div className="metric-heading"><span className="metric-icon"><TrendingUp size={24} /></span><span className="metric-eyebrow">GOAL TRACKER</span></div>
+    <div className="metric-copy metric-balance-copy">
+      <h2>REMAINING TO GO</h2>
+      <div className="remaining-slots">
+        <div className="remaining-slot">
+          <span className="remaining-label">COLLECTION BALANCE</span>
+          <span className="remaining-value"><AnimatedNumber value={collection} prefix="RM " /></span>
+        </div>
+        <div className="remaining-slot">
+          <span className="remaining-label">FILES REMAINING</span>
+          <span className="remaining-value"><AnimatedNumber value={files} /></span>
+        </div>
+      </div>
+      <p>{reportedDays > 0 ? `Files based on ${reportedDays} daily disbursement report${reportedDays === 1 ? '' : 's'}.` : 'Awaiting daily disbursement reports.'}</p>
+    </div>
+  </article>;
+}
+
 function Countdown({ endsOn, clock }: { endsOn: string; clock: Date | null }) {
   const left = clock ? campaignTimeLeft(endsOn, clock.getTime()) : null;
   const units = [
@@ -164,6 +184,17 @@ export default function CampaignDashboard() {
   const latestCollected = snapshots.find((item) => item.collection_as_of_date !== null);
   const collection = latestCollected?.collection_as_of_date ?? null;
   const disbursed = todayRecord?.disbursed_files ?? null;
+  // Collection is cumulative; the daily file disbursements must be summed
+  // within this campaign to avoid subtracting just today's count.
+  const fileReports = snapshots.filter((item) =>
+    item.report_date >= campaign.starts_on &&
+    item.report_date <= campaign.ends_on &&
+    item.report_date <= today &&
+    item.disbursed_files !== null
+  );
+  const totalDisbursedFiles = fileReports.reduce((total, item) => total + (item.disbursed_files ?? 0), 0);
+  const remainingCollection = collection === null ? null : Math.max(0, campaign.target_collection - collection);
+  const remainingFiles = fileReports.length === 0 ? null : Math.max(0, campaign.number_of_files - totalDisbursedFiles);
   const goalProgress = collection === null || campaign.target_collection <= 0 ? null : Math.min(collection / campaign.target_collection * 100, 100);
   const lastUpdated = [campaign.updated_at, ...snapshots.map((item) => item.updated_at)]
     .filter(Boolean).sort().reverse()[0];
@@ -203,20 +234,23 @@ export default function CampaignDashboard() {
           <div className="campaign-dates"><CalendarDays size={16} />{readableDate(campaign.starts_on)} <span className="date-dash">—</span> {readableDate(campaign.ends_on)}<span className="campaign-duration">{totalDays}-DAY MISSION</span></div>
         </div>
 
-        <div className="countdown-panel">
-          <div className="countdown-header"><span><span className="countdown-live-dot" /> THE FINAL COUNTDOWN</span><span className="countdown-decoration">✳</span></div>
-          <Countdown endsOn={campaign.ends_on} clock={clock} />
-          <div className="countdown-bottom"><span><TrendingUp size={16} /> Every day counts. Keep pushing.</span><span>UNTIL {readableDate(campaign.ends_on).toUpperCase()}</span></div>
+        <div className="hero-stat-row">
+          <MetricCard title="TARGET COLLECTION" icon={<Target size={24} />} label="THE BIG GOAL" value={campaign.target_collection} prefix="RM " accent="emerald" description="Our Q4 collection target." highlight className="hero-target-card" />
+          <div className="countdown-panel">
+            <div className="countdown-header"><span><span className="countdown-live-dot" /> THE FINAL COUNTDOWN</span><span className="countdown-decoration">✳</span></div>
+            <Countdown endsOn={campaign.ends_on} clock={clock} />
+            <div className="countdown-bottom"><span><TrendingUp size={16} /> Every day counts. Keep pushing.</span><span>UNTIL {readableDate(campaign.ends_on).toUpperCase()}</span></div>
+          </div>
         </div>
       </section>
 
       <div className="section-label"><span>01 / LIVE PERFORMANCE</span><span className="section-label-right">THE NUMBERS THAT MATTER <Sparkles size={15} /></span></div>
 
       <section className="metrics-grid" aria-label="Live campaign metrics">
-        <MetricCard title="TARGET COLLECTION" icon={<Target size={24} />} label="THE BIG GOAL" value={campaign.target_collection} prefix="RM " accent="emerald" description="Our Q4 collection target." highlight className="metric-major metric-target" />
         <MetricCard title="COLLECTION AS OF TODAY" icon={<Wallet size={24} />} value={collection} prefix="RM " accent="yellow" description={latestCollected ? `Latest recorded: ${readableDate(latestCollected.report_date)}` : 'Awaiting the first collection report.'} className="metric-minor metric-collection" />
-        <MetricCard title="NUMBER OF FILES" icon={<Files size={24} />} value={campaign.number_of_files} description="Campaign file count." className="metric-major metric-files" />
+        <MetricCard title="NUMBER OF FILES" icon={<Files size={24} />} value={campaign.number_of_files} description="Campaign file count." highlight className="metric-major metric-files" />
         <MetricCard title="DISBURSED FILES TODAY" icon={<CheckCheck size={24} />} value={disbursed} accent="emerald" description={todayRecord?.disbursed_files !== null && todayRecord?.disbursed_files !== undefined ? `Reported for ${readableDate(today)}.` : `Awaiting the report for ${readableDate(today)}.`} className="metric-minor metric-disbursed" />
+        <RemainingCard collection={remainingCollection} files={remainingFiles} reportedDays={fileReports.length} />
       </section>
 
       <section className="progress-strip" aria-label="Collection progress">
