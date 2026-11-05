@@ -46,7 +46,6 @@ export default function AdminLogin() {
   };
 
   return <main className="auth-layout">
-    <div className="auth-decoration" />
     <div className="auth-panel">
       <Link href="/" className="back-link"><ArrowLeft size={17} /> Back to live dashboard</Link>
       <Image src="/brand/uruss-logo.png" width={208} height={54} alt="URUSS" className="auth-logo" priority />

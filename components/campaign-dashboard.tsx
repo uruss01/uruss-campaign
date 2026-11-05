@@ -63,6 +63,7 @@ export default function CampaignDashboard() {
   const [fullscreen, setFullscreen] = useState(false);
   const fingerprint = useRef('');
   const flashTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dashboardContentRef = useRef<HTMLDivElement>(null);
 
   const refresh = useCallback(async () => {
     if (!connected) return;
@@ -111,6 +112,35 @@ export default function CampaignDashboard() {
     };
   }, [connected, refresh]);
 
+  // Keep the public display inside the visible viewport, even on short TV,
+  // tablet and mobile screens. All campaign content stays visible and readable.
+  useEffect(() => {
+    const content = dashboardContentRef.current;
+    if (!content) return;
+    let frame = 0;
+    const fitToViewport = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+        const naturalHeight = content.scrollHeight;
+        const scale = Math.min(1, Math.max(0.1, (viewportHeight - 2) / Math.max(1, naturalHeight)));
+        content.style.setProperty('--dashboard-fit', String(scale));
+      });
+    };
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(fitToViewport);
+    observer?.observe(content);
+    window.addEventListener('resize', fitToViewport);
+    window.visualViewport?.addEventListener('resize', fitToViewport);
+    if (document.fonts) void document.fonts.ready.then(fitToViewport);
+    fitToViewport();
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', fitToViewport);
+      window.visualViewport?.removeEventListener('resize', fitToViewport);
+      cancelAnimationFrame(frame);
+    };
+  }, [status]);
+
   useEffect(() => {
     const change = () => setFullscreen(Boolean(document.fullscreenElement));
     document.addEventListener('fullscreenchange', change);
@@ -147,7 +177,7 @@ export default function CampaignDashboard() {
     {flash && <div className="celebrate" aria-hidden="true">{Array.from({ length: 18 }, (_, i) => <i key={i} style={{ left: `${(i * 37 + 7) % 100}%`, animationDelay: `${i * 50}ms` }} />)}</div>}
     {flash && <div className="update-announcement" role="status"><Sparkles size={18} /> New campaign numbers are live!</div>}
 
-    <div className="dashboard-content">
+    <div className="dashboard-content" ref={dashboardContentRef}>
       <header className="public-header">
         <div className="brand-area">
           <Image src="/brand/uruss-logo.png" alt="URUSS" width={224} height={56} className="brand-logo" priority />

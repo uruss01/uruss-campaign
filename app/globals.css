@@ -41,3 +41,141 @@
 @media(max-width:670px){.dashboard-content{padding:23px 17px}.public-header{align-items:flex-start;gap:11px}.brand-area{gap:9px}.brand-logo{width:125px}.brand-divider{height:26px}.brand-context{font-size:7px;letter-spacing:1.1px}.header-actions{gap:6px}.live-indicator{font-size:0;gap:0;padding:9px}.live-dot{width:8px;height:8px}.header-clock{display:none}.fullscreen-button{height:34px;width:34px}.campaign-hero{padding:49px 0 29px}.campaign-brow{font-size:10px;letter-spacing:2px}.campaign-title-group h1{font-size:clamp(50px,12.5vw,80px)}.title-gradient{font-size:clamp(30px,6.3vw,44px)}.hero-tagline{font-size:14px}.campaign-dates{gap:8px;font-size:11px}.campaign-duration{margin:8px 0 0}.countdown-panel{border-radius:18px;padding:20px 17px}.countdown-header>span:first-child{font-size:10px;letter-spacing:1.3px}.countdown-decoration{font-size:26px}.countdown-units{gap:4px;margin:25px 0}.count-digit{font-size:clamp(38px,10.7vw,64px)}.count-label{font-size:9px;letter-spacing:1.1px}.count-separator{font-size:25px;right:0}.countdown-bottom>span:first-child{font-size:11px}.section-label{font-size:9px;letter-spacing:1.1px;margin-bottom:14px}.section-label-right{display:none}.metrics-grid{grid-template-columns:1fr;gap:12px}.metric-card{min-height:175px;padding:20px}.metric-number{font-size:clamp(35px,10.4vw,53px)}.metric-copy{margin-top:16px}.metric-copy p{font-size:12px}.progress-strip{padding:15px;margin-top:15px}.progress-header{font-size:9px;letter-spacing:.6px}.dashboard-footer{display:flex;flex-direction:column;align-items:flex-start;font-size:9px;gap:9px}.footer-right{flex-wrap:wrap}.update-announcement{top:80px;right:10px;left:10px;font-size:12px;justify-content:center}.admin-sidebar{position:fixed;inset:0 auto 0 0;transform:translateX(-110%);width:min(300px,84vw);transition:transform .25s}.admin-sidebar.sidebar-visible{transform:translateX(0)}.sidebar-scrim{display:block;position:fixed;inset:0;border:0;background:#00180dc0;z-index:19}.mobile-menu-button{display:grid}.topbar-breadcrumb{font-size:9px}.admin-topbar{height:65px;padding:0 15px;gap:11px}.topbar-right{gap:8px}.admin-live-tag{font-size:0}.admin-live-tag span{width:9px;height:9px}.admin-content{padding:25px 16px}.admin-page-heading{align-items:flex-start;flex-direction:column}.admin-page-heading h1{font-size:30px}.heading-date{padding:8px 11px}.admin-stat-grid{gap:10px}.admin-stat{padding:17px 13px}.admin-stat strong{font-size:clamp(18px,5vw,26px)}.admin-stat-top{font-size:10px}.admin-stat-icon{width:32px;height:32px}.admin-stat-icon svg{width:17px}.admin-surface{padding:20px 17px}.overview-banner{padding:23px;min-height:160px}.overview-banner h2{font-size:25px}.banner-graphic{right:-70px}.form-surface{padding:22px 17px}.two-fields{grid-template-columns:1fr}.form-help-column{display:flex}.admin-footer{align-items:flex-start;flex-direction:column}.auth-panel{padding:25px 21px}.auth-logo{margin:45px 0 35px}.auth-panel h1{font-size:41px}.auth-bottom{margin-top:40px}.history-item{align-items:flex-start}.history-item time{font-size:9px;white-space:normal;text-align:right}}
 @media(max-width:380px){.brand-context{display:none}.brand-divider{display:none}.count-digit{font-size:36px}.metric-number{font-size:35px}.admin-stat-grid{grid-template-columns:1fr}.metric-number>span{gap:3px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* LAYOUT FIXES: login occupies the first column, campaign visual the second. */
+@media (min-width:901px) {
+  .auth-layout > .auth-panel { grid-column:1; grid-row:1; }
+  .auth-layout > .auth-feature { grid-column:2; grid-row:1; }
+}
+
+/* PUBLIC DISPLAY ONLY: show the full dashboard without browser page scrolling. */
+.dashboard { height:100dvh; min-height:0; overflow:hidden; }
+.dashboard-content {
+  min-height:100dvh;
+  transform:scale(var(--dashboard-fit, 1));
+  transform-origin:top center;
+  will-change:transform;
+}
+
+/* Tablet and smaller laptop: keep hero and countdown next to one another. */
+@media (min-width:701px) and (max-width:1100px) {
+  .dashboard-content { padding:clamp(15px,2.4vh,28px) clamp(19px,3vw,34px); }
+  .campaign-hero { grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(16px,2.2vw,30px); padding:clamp(18px,3vh,32px) 0; }
+  .campaign-title-group h1 { font-size:clamp(42px,5.4vw,66px); }
+  .title-gradient { font-size:clamp(28px,3.65vw,45px); }
+  .campaign-brow { margin-bottom:10px; }
+  .hero-tagline { margin:8px 0 12px; font-size:clamp(11px,1.4vw,15px); }
+  .campaign-dates { font-size:11px; gap:6px; }
+  .campaign-duration { margin-left:0; padding:5px 9px; }
+  .countdown-panel { padding:clamp(15px,2.1vw,24px); }
+  .countdown-units { margin:clamp(15px,2vw,22px) 0; }
+  .count-digit { font-size:clamp(34px,4.9vw,55px); }
+  .count-separator { font-size:clamp(22px,2.8vw,30px); }
+  .countdown-bottom { padding-top:11px; }
+  .metric-card { min-height:clamp(143px,16vh,173px); padding:clamp(14px,1.8vw,20px); }
+  .metric-copy { margin-top:12px; }
+  .metric-number { font-size:clamp(22px,3.4vw,36px); min-height:31px; }
+  .metric-copy p { margin-top:5px; }
+  .metric-icon { height:34px; width:34px; }
+  .metric-icon svg { width:19px; height:19px; }
+  .progress-strip { padding:11px 17px; margin-top:12px; }
+  .dashboard-footer { margin-top:auto; padding-top:12px; }
+}
+@media (min-width:951px) and (max-width:1100px) {
+  .metrics-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }
+  .metric-number { font-size:clamp(20px,2.4vw,28px); }
+}
+
+/* Phone-sized dashboard: four complete metrics in a compact 2x2 grid. */
+@media (max-width:700px) {
+  .dashboard-content { padding:clamp(8px,1.7vh,17px) clamp(10px,3vw,18px) max(8px,env(safe-area-inset-bottom)); }
+  .public-header { min-height:35px; align-items:center; }
+  .brand-logo { width:clamp(100px,26vw,132px); }
+  .brand-divider { height:23px; }
+  .brand-context { font-size:7px; }
+  .fullscreen-button { width:32px; height:32px; }
+  .campaign-hero { grid-template-columns:minmax(0,1fr); gap:clamp(9px,1.8vh,17px); padding:clamp(9px,1.6vh,18px) 0 11px; }
+  .campaign-brow { font-size:9px; letter-spacing:1.5px; gap:8px; margin-bottom:6px; }
+  .brow-line { width:22px; }
+  .brow-spark { font-size:14px; }
+  .campaign-title-group h1 { font-size:clamp(37px,9.2vw,61px); line-height:.88; }
+  .title-gradient { font-size:clamp(22px,5.9vw,38px); padding:5px 2px 5px 0; }
+  .hero-tagline { font-size:clamp(10px,2.7vw,13px); line-height:1.3; margin:5px 0 8px; }
+  .campaign-dates { gap:5px; font-size:9px; }
+  .campaign-dates svg { width:12px; height:12px; }
+  .campaign-duration { margin:0 0 0 5px; padding:4px 7px; font-size:8px; letter-spacing:.45px; }
+  .countdown-panel { max-width:none; border-radius:14px; padding:12px 14px; }
+  .countdown-header>span:first-child { font-size:9px; letter-spacing:1px; }
+  .countdown-decoration { font-size:19px; }
+  .countdown-units { margin:10px 0 9px; }
+  .count-digit { font-size:clamp(28px,7.4vw,43px); }
+  .count-label { margin-top:5px; font-size:8px; letter-spacing:.9px; }
+  .count-separator { font-size:21px; right:2px; top:0; }
+  .countdown-bottom { padding-top:8px; }
+  .countdown-bottom>span:first-child { font-size:9px; }
+  .countdown-bottom svg { width:12px; height:12px; }
+  .section-label { font-size:9px; margin:1px 0 7px; }
+  .metrics-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .metric-card { min-width:0; min-height:clamp(112px,15.5vh,146px); padding:clamp(10px,2.7vw,14px); border-radius:13px; }
+  .metric-icon { width:29px; height:29px; border-radius:9px; }
+  .metric-icon svg { width:16px; height:16px; }
+  .metric-eyebrow { font-size:7px; letter-spacing:.55px; }
+  .metric-copy { margin-top:8px; }
+  .metric-copy h2 { font-size:clamp(8px,2.1vw,10px); line-height:1.25; letter-spacing:.55px; margin-bottom:4px; }
+  .metric-number { min-height:22px; font-size:clamp(15px,3.9vw,24px); letter-spacing:-.07em; }
+  .number-prefix { font-size:.48em; }
+  .empty-number { font-size:clamp(11px,2.8vw,16px); }
+  .metric-copy p { margin:4px 0 0; font-size:clamp(8px,2.1vw,10px); line-height:1.25; }
+  .metric-corner { display:none; }
+  .metric-highlight::before { font-size:105px; }
+  .progress-strip { margin-top:9px; padding:9px 12px 8px; border-radius:11px; }
+  .progress-header { font-size:8px; letter-spacing:.35px; margin-bottom:6px; }
+  .progress-header>span { gap:5px; }
+  .progress-header svg { width:12px; height:12px; }
+  .progress-track { height:5px; }
+  .progress-foot { font-size:7px; letter-spacing:.6px; margin-top:5px; }
+  .dashboard-footer { margin-top:auto; padding-top:9px; gap:5px; font-size:8px; }
+  .footer-right { gap:5px; }
+  .update-announcement { top:44px; }
+}
+
+/* Short landscape phones: a single wide screen, with metrics in one row. */
+@media (min-width:600px) and (max-height:550px) and (orientation:landscape) {
+  .dashboard-content { padding:8px 15px; }
+  .public-header { min-height:28px; }
+  .brand-logo { width:100px; }
+  .brand-context { font-size:7px; }
+  .live-indicator { padding:7px 10px; font-size:8px; }
+  .header-clock { font-size:10px; }
+  .fullscreen-button { width:28px; height:28px; }
+  .campaign-hero { grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:16px; padding:8px 0; }
+  .campaign-brow { margin-bottom:4px; font-size:8px; }
+  .campaign-title-group h1 { font-size:clamp(31px,5vw,45px); }
+  .title-gradient { font-size:clamp(20px,3.3vw,31px); padding:3px 0; }
+  .hero-tagline { font-size:10px; margin:4px 0 5px; }
+  .campaign-dates { font-size:8px; gap:4px; }
+  .campaign-duration { padding:3px 6px; font-size:7px; }
+  .countdown-panel { padding:10px 12px; border-radius:12px; }
+  .countdown-header>span:first-child { font-size:8px; }
+  .countdown-decoration { font-size:16px; }
+  .countdown-units { margin:9px 0; }
+  .count-digit { font-size:clamp(26px,3.6vw,35px); }
+  .count-label { margin-top:3px; font-size:7px; }
+  .count-separator { font-size:17px; }
+  .countdown-bottom { padding-top:6px; }
+  .countdown-bottom>span:first-child { font-size:8px; }
+  .section-label { margin:0 0 6px; font-size:8px; }
+  .metrics-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+  .metric-card { min-height:clamp(95px,23vh,114px); padding:9px; border-radius:11px; }
+  .metric-icon { width:23px; height:23px; }
+  .metric-icon svg { width:13px; height:13px; }
+  .metric-eyebrow { font-size:6px; }
+  .metric-copy { margin-top:5px; }
+  .metric-copy h2 { font-size:8px; margin-bottom:2px; }
+  .metric-number { min-height:17px; font-size:clamp(15px,2.15vw,22px); }
+  .metric-copy p { font-size:8px; margin-top:2px; }
+  .progress-strip { margin-top:7px; padding:7px 10px; }
+  .progress-header { margin-bottom:4px; font-size:7px; }
+  .progress-foot { margin-top:4px; font-size:7px; }
+  .dashboard-footer { margin-top:auto; padding-top:5px; flex-direction:row; font-size:7px; }
+}
