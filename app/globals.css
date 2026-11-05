@@ -204,7 +204,7 @@
 .hero-target-card .metric-icon {background:#328c52;color:#e5ffa9;}
 .hero-target-card .metric-copy {margin-top:clamp(12px,2vh,24px);}
 .hero-target-card .metric-copy h2 {color:#d7f8db;font-size:clamp(10px,.88vw,14px);margin-bottom:9px;}
-.hero-target-card .metric-number {color:#d6ffa1;font-size:clamp(29px,2.55vw,55px);letter-spacing:-.065em;}
+.hero-target-card .metric-number {color:#d6ffa1;font-size:clamp(36px,3.5vw,76px);letter-spacing:-.065em;}
 .hero-target-card .metric-copy p {color:#aee5bf;margin-top:9px;}
 .hero-target-card .metric-eyebrow {color:#d6ffa1;}
 .hero-target-card::before {color:#d6ff9914;}
@@ -238,7 +238,7 @@
   .campaign-hero {grid-template-columns:minmax(0,.8fr) minmax(0,1.65fr);gap:18px;}
   .hero-highlights {grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:10px;}
   .hero-target-card {padding:clamp(11px,1.35vw,20px);}
-  .hero-target-card .metric-number {font-size:clamp(23px,2.5vw,36px);}
+  .hero-target-card .metric-number {font-size:clamp(28px,3.3vw,48px);}
   .hero-target-card .metric-icon {width:36px;height:36px;}
   .hero-target-card .metric-eyebrow {font-size:7px;letter-spacing:.7px;}
   .hero-highlights .countdown-panel {padding:clamp(12px,1.5vw,20px);}
@@ -252,7 +252,7 @@
 @media (max-width:1100px) {
   .campaign-hero {grid-template-columns:minmax(0,1fr);gap:clamp(10px,2vh,20px);}
   .hero-highlights {grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:12px;}
-  .hero-target-card .metric-number {font-size:clamp(29px,4vw,45px);}
+  .hero-target-card .metric-number {font-size:clamp(33px,5vw,57px);}
   .hero-highlights .count-digit {font-size:clamp(30px,4.8vw,53px);}
   .metric-files .metric-number {font-size:clamp(32px,4.6vw,55px);}
   .balance-slots {grid-template-columns:1fr 1fr;}
@@ -275,7 +275,7 @@
   .hero-target-card .metric-eyebrow {font-size:6px;letter-spacing:.3px;}
   .hero-target-card .metric-copy {margin-top:8px;}
   .hero-target-card .metric-copy h2 {font-size:8px;letter-spacing:.5px;margin-bottom:3px;}
-  .hero-target-card .metric-number {font-size:clamp(18px,5vw,31px);min-height:23px;}
+  .hero-target-card .metric-number {font-size:clamp(20px,5.6vw,34px);min-height:23px;}
   .hero-target-card .metric-copy p {font-size:8px;line-height:1.2;margin-top:5px;}
   .hero-highlights .countdown-panel {padding:10px;}
   .hero-highlights .countdown-header>span:first-child {font-size:7px;letter-spacing:.5px;gap:6px;}
@@ -301,7 +301,7 @@
   .hero-highlights {grid-template-columns:1fr;gap:7px;}
   .hero-target-card {min-height:87px;}
   .hero-target-card .metric-copy {margin-top:5px;}
-  .hero-target-card .metric-number {font-size:27px;}
+  .hero-target-card .metric-number {font-size:33px;}
   .hero-highlights .count-digit {font-size:clamp(27px,8.3vw,37px);}
 }
 @media (min-width:600px) and (max-height:550px) and (orientation:landscape) {
@@ -313,7 +313,7 @@
   .hero-target-card .metric-eyebrow {font-size:6px;letter-spacing:0;}
   .hero-target-card .metric-copy {margin-top:3px;}
   .hero-target-card .metric-copy h2 {font-size:7px;letter-spacing:.2px;margin:0 0 3px;}
-  .hero-target-card .metric-number {font-size:clamp(15px,2.3vw,25px);min-height:18px;}
+  .hero-target-card .metric-number {font-size:clamp(17px,2.8vw,30px);min-height:18px;}
   .hero-target-card .metric-copy p {font-size:7px;line-height:1.1;margin-top:3px;}
   .hero-highlights .countdown-panel {padding:8px;}
   .hero-highlights .countdown-header>span:first-child {font-size:7px;letter-spacing:0;}
