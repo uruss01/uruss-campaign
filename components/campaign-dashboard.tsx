@@ -22,10 +22,11 @@ type MetricCardProps = {
   accent?: 'emerald' | 'yellow' | 'white';
   label?: string;
   highlight?: boolean;
+  className?: string;
 };
 
-function MetricCard({ title, description, icon, value, prefix, accent = 'white', label, highlight = false }: MetricCardProps) {
-  return <article className={`metric-card metric-${accent} ${highlight ? 'metric-highlight' : ''}`}>
+function MetricCard({ title, description, icon, value, prefix, accent = 'white', label, highlight = false, className = '' }: MetricCardProps) {
+  return <article className={`metric-card metric-${accent} ${highlight ? 'metric-highlight' : ''} ${className}`.trim()}>
     <div className="metric-heading"><span className="metric-icon">{icon}</span><span className="metric-eyebrow">{label || 'Q4 CAMPAIGN'}</span></div>
     <div className="metric-copy">
       <h2>{title}</h2>
@@ -212,10 +213,10 @@ export default function CampaignDashboard() {
       <div className="section-label"><span>01 / LIVE PERFORMANCE</span><span className="section-label-right">THE NUMBERS THAT MATTER <Sparkles size={15} /></span></div>
 
       <section className="metrics-grid" aria-label="Live campaign metrics">
-        <MetricCard title="TARGET COLLECTION" icon={<Target size={24} />} label="THE BIG GOAL" value={campaign.target_collection} prefix="RM " accent="emerald" description="Our Q4 collection target." highlight />
-        <MetricCard title="NUMBER OF FILES" icon={<Files size={24} />} value={campaign.number_of_files} description="Campaign file count." />
-        <MetricCard title={latestCollected && latestCollected.report_date !== today ? 'COLLECTION AS OF LAST REPORT' : 'COLLECTION AS OF TODAY'} icon={<Wallet size={24} />} value={collection} prefix="RM " accent="yellow" description={latestCollected ? `Latest recorded: ${readableDate(latestCollected.report_date)}` : 'Awaiting the first collection report.'} />
-        <MetricCard title="DISBURSED FILES TODAY" icon={<CheckCheck size={24} />} value={disbursed} accent="emerald" description={todayRecord?.disbursed_files !== null && todayRecord?.disbursed_files !== undefined ? `Reported for ${readableDate(today)}.` : `Awaiting the report for ${readableDate(today)}.`} />
+        <MetricCard title="TARGET COLLECTION" icon={<Target size={24} />} label="THE BIG GOAL" value={campaign.target_collection} prefix="RM " accent="emerald" description="Our Q4 collection target." highlight className="metric-major metric-target" />
+        <MetricCard title="COLLECTION AS OF TODAY" icon={<Wallet size={24} />} value={collection} prefix="RM " accent="yellow" description={latestCollected ? `Latest recorded: ${readableDate(latestCollected.report_date)}` : 'Awaiting the first collection report.'} className="metric-minor metric-collection" />
+        <MetricCard title="NUMBER OF FILES" icon={<Files size={24} />} value={campaign.number_of_files} description="Campaign file count." className="metric-major metric-files" />
+        <MetricCard title="DISBURSED FILES TODAY" icon={<CheckCheck size={24} />} value={disbursed} accent="emerald" description={todayRecord?.disbursed_files !== null && todayRecord?.disbursed_files !== undefined ? `Reported for ${readableDate(today)}.` : `Awaiting the report for ${readableDate(today)}.`} className="metric-minor metric-disbursed" />
       </section>
 
       <section className="progress-strip" aria-label="Collection progress">
