@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowUpRight, CalendarDays, CheckCheck, Clock3, Files, Maximize2, Minimize2, Sparkles, Target, TrendingUp, Wallet } from 'lucide-react';
+import { ArrowUpRight, CalendarDays, CheckCheck, Clock3, Files, Gauge, Maximize2, Minimize2, Sparkles, Target, TrendingUp, Wallet } from 'lucide-react';
 import AnimatedNumber from './animated-number';
 import { campaignTimeLeft, dateInMalaysia, dateTimeInMalaysia, durationDays, formatNumber, readableDate, timeInMalaysia } from '@/lib/date';
 import { fetchCampaignData } from '@/lib/data';
@@ -34,26 +34,6 @@ function MetricCard({ title, description, icon, value, prefix, accent = 'white',
       <p>{description}</p>
     </div>
     <span className="metric-corner" aria-hidden="true"><ArrowUpRight size={18} /></span>
-  </article>;
-}
-
-function RemainingCard({ collection, files, reportedDays }: { collection: number | null; files: number | null; reportedDays: number }) {
-  return <article className="metric-card metric-balance" aria-label="Remaining campaign balance">
-    <div className="metric-heading"><span className="metric-icon"><TrendingUp size={24} /></span><span className="metric-eyebrow">GOAL TRACKER</span></div>
-    <div className="metric-copy metric-balance-copy">
-      <h2>REMAINING TO GO</h2>
-      <div className="remaining-slots">
-        <div className="remaining-slot">
-          <span className="remaining-label">COLLECTION BALANCE</span>
-          <span className="remaining-value"><AnimatedNumber value={collection} prefix="RM " /></span>
-        </div>
-        <div className="remaining-slot">
-          <span className="remaining-label">FILES REMAINING</span>
-          <span className="remaining-value"><AnimatedNumber value={files} /></span>
-        </div>
-      </div>
-      <p>{reportedDays > 0 ? `Files based on ${reportedDays} daily disbursement report${reportedDays === 1 ? '' : 's'}.` : 'Awaiting daily disbursement reports.'}</p>
-    </div>
   </article>;
 }
 
@@ -182,19 +162,14 @@ export default function CampaignDashboard() {
   const today = dateInMalaysia(clock || new Date());
   const todayRecord = snapshots.find((item) => item.report_date === today);
   const latestCollected = snapshots.find((item) => item.collection_as_of_date !== null);
+  // Sum only disbursements recorded through the current Malaysia reporting date.
+  const reportsThroughToday = snapshots.filter((item) => item.report_date <= today);
   const collection = latestCollected?.collection_as_of_date ?? null;
   const disbursed = todayRecord?.disbursed_files ?? null;
-  // Collection is cumulative; the daily file disbursements must be summed
-  // within this campaign to avoid subtracting just today's count.
-  const fileReports = snapshots.filter((item) =>
-    item.report_date >= campaign.starts_on &&
-    item.report_date <= campaign.ends_on &&
-    item.report_date <= today &&
-    item.disbursed_files !== null
-  );
-  const totalDisbursedFiles = fileReports.reduce((total, item) => total + (item.disbursed_files ?? 0), 0);
+  // Disbursement is a DAILY value: add all recorded days rather than subtracting today's count alone.
+  const totalDisbursed = reportsThroughToday.reduce((total, item) => total + (item.disbursed_files ?? 0), 0);
   const remainingCollection = collection === null ? null : Math.max(0, campaign.target_collection - collection);
-  const remainingFiles = fileReports.length === 0 ? null : Math.max(0, campaign.number_of_files - totalDisbursedFiles);
+  const remainingFiles = Math.max(0, campaign.number_of_files - totalDisbursed);
   const goalProgress = collection === null || campaign.target_collection <= 0 ? null : Math.min(collection / campaign.target_collection * 100, 100);
   const lastUpdated = [campaign.updated_at, ...snapshots.map((item) => item.updated_at)]
     .filter(Boolean).sort().reverse()[0];
@@ -234,7 +209,7 @@ export default function CampaignDashboard() {
           <div className="campaign-dates"><CalendarDays size={16} />{readableDate(campaign.starts_on)} <span className="date-dash">—</span> {readableDate(campaign.ends_on)}<span className="campaign-duration">{totalDays}-DAY MISSION</span></div>
         </div>
 
-        <div className="hero-stat-row">
+        <div className="hero-highlights">
           <MetricCard title="TARGET COLLECTION" icon={<Target size={24} />} label="THE BIG GOAL" value={campaign.target_collection} prefix="RM " accent="emerald" description="Our Q4 collection target." highlight className="hero-target-card" />
           <div className="countdown-panel">
             <div className="countdown-header"><span><span className="countdown-live-dot" /> THE FINAL COUNTDOWN</span><span className="countdown-decoration">✳</span></div>
@@ -248,9 +223,24 @@ export default function CampaignDashboard() {
 
       <section className="metrics-grid" aria-label="Live campaign metrics">
         <MetricCard title="COLLECTION AS OF TODAY" icon={<Wallet size={24} />} value={collection} prefix="RM " accent="yellow" description={latestCollected ? `Latest recorded: ${readableDate(latestCollected.report_date)}` : 'Awaiting the first collection report.'} className="metric-minor metric-collection" />
-        <MetricCard title="NUMBER OF FILES" icon={<Files size={24} />} value={campaign.number_of_files} description="Campaign file count." highlight className="metric-major metric-files" />
+        <MetricCard title="NUMBER OF FILES" icon={<Files size={24} />} value={campaign.number_of_files} description="Campaign file count." accent="emerald" highlight className="metric-major metric-files" />
         <MetricCard title="DISBURSED FILES TODAY" icon={<CheckCheck size={24} />} value={disbursed} accent="emerald" description={todayRecord?.disbursed_files !== null && todayRecord?.disbursed_files !== undefined ? `Reported for ${readableDate(today)}.` : `Awaiting the report for ${readableDate(today)}.`} className="metric-minor metric-disbursed" />
-        <RemainingCard collection={remainingCollection} files={remainingFiles} reportedDays={fileReports.length} />
+        <article className="metric-card balance-card" aria-label="Balance to go">
+          <div className="metric-heading"><span className="metric-icon"><Gauge size={24} /></span><span className="metric-eyebrow">Q4 CAMPAIGN</span></div>
+          <div className="balance-content">
+            <h2>BALANCE TO GO</h2>
+            <div className="balance-slots">
+              <div className="balance-slot">
+                <span className="balance-label">REMAINING COLLECTION</span>
+                <div className="balance-value balance-collection"><AnimatedNumber value={remainingCollection} prefix="RM " /></div>
+              </div>
+              <div className="balance-slot">
+                <span className="balance-label">REMAINING FILES</span>
+                <div className="balance-value balance-files"><AnimatedNumber value={remainingFiles} /></div>
+              </div>
+            </div>
+          </div>
+        </article>
       </section>
 
       <section className="progress-strip" aria-label="Collection progress">

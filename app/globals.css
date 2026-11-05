@@ -181,97 +181,153 @@
 }
 
 
-/* PUBLIC DASHBOARD ONLY — featured target beside the countdown, highlighted files,
-   and a calculated two-slot remaining-goal card. No admin styles are affected. */
-@media (min-width:1101px) {
-  .campaign-hero { grid-template-columns:minmax(0,.9fr) minmax(0,1.65fr); gap:clamp(20px,2.4vw,48px); }
-  .campaign-title-group h1 { font-size:clamp(48px,5vw,96px); }
-  .title-gradient { font-size:clamp(31px,3vw,60px); }
+/* PUBLIC DASHBOARD ONLY — prominent target beside countdown and live remaining balances. */
+.campaign-hero {
+  grid-template-columns:minmax(0,.78fr) minmax(0,1.5fr);
+  gap:clamp(18px,2.6vw,50px);
 }
-.hero-stat-row { display:grid; grid-template-columns:minmax(0,.74fr) minmax(0,1.33fr); gap:clamp(10px,1vw,18px); align-items:stretch; min-width:0; }
-.hero-target-card { min-width:0; height:100%; min-height:0; padding:clamp(16px,1.7vw,29px); border-color:#36aa67; box-shadow:0 0 0 1px #c6ff9130,inset 0 1px #baff963a,0 16px 48px #00d46a16; }
-.hero-target-card .metric-copy { margin-top:clamp(14px,2vw,35px); }
-.hero-target-card .metric-copy h2 { font-size:clamp(10px,.78vw,14px); margin-bottom:8px; }
-.hero-target-card .metric-number { font-size:clamp(26px,2.33vw,50px); color:#d7ff98; }
-.hero-target-card .metric-copy p { font-size:clamp(10px,.69vw,13px); }
-.hero-stat-row .countdown-panel { min-width:0; display:flex; flex-direction:column; justify-content:space-between; padding:clamp(15px,1.8vw,32px); }
-.hero-stat-row .countdown-units { margin:clamp(16px,2vw,32px) 0; }
-.hero-stat-row .count-digit { font-size:clamp(30px,3.1vw,66px); }
-.hero-stat-row .count-separator { font-size:clamp(19px,2vw,36px); right:3px; }
-.hero-stat-row .countdown-header>span:first-child { font-size:clamp(8px,.65vw,11px); letter-spacing:clamp(.5px,.1vw,2px); }
-.metric-files { border-color:#3c9964; background:linear-gradient(145deg,#145539,#0d3122 72%,#102b20); box-shadow:inset 0 1px #9cfda432; }
-.metric-files .metric-icon { background:#247c52; color:#d1ff9d; }
-.metric-files .metric-number { color:#d4ffa2; font-size:clamp(32px,2.7vw,58px); }
-.metric-files .metric-copy h2 { color:#daffe2; }
-.metric-balance { border-color:#336747; background:linear-gradient(145deg,#112f22,#0b261d); }
-.metric-balance-copy { margin-top:clamp(7px,.8vw,15px); }
-.metric-balance .metric-copy h2 { margin-bottom:clamp(5px,.55vw,11px); }
-.remaining-slots { display:grid; grid-template-columns:1fr; gap:clamp(5px,.55vw,10px); }
-.remaining-slot { background:#061b14a3; border:1px solid #275740; border-radius:10px; padding:clamp(7px,.65vw,12px) clamp(8px,.8vw,14px); min-width:0; }
-.remaining-label { display:block; color:#96c2a7; font-size:clamp(8px,.56vw,10px); font-weight:800; letter-spacing:.85px; }
-.remaining-value { display:block; margin-top:3px; color:#d7ff9b; font:700 clamp(17px,1.35vw,29px)/1.12 var(--font-display); letter-spacing:-.055em; white-space:nowrap; }
-.remaining-value>span { display:inline-flex; align-items:baseline; gap:4px; }
-.remaining-value .number-prefix { font-size:.55em; }
-.remaining-value .empty-number { font-size:clamp(11px,.85vw,16px); }
-.metric-balance .metric-copy p { font-size:clamp(9px,.65vw,12px); margin-top:clamp(5px,.5vw,10px); }
-@media (min-width:1101px) and (max-width:1420px) {
-  .campaign-hero { grid-template-columns:minmax(0,.78fr) minmax(0,1.55fr); gap:18px; }
-  .hero-stat-row { grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr); gap:10px; }
-  .hero-target-card { padding:14px; }
-  .hero-target-card .metric-number { font-size:clamp(22px,2vw,31px); }
-  .hero-stat-row .countdown-panel { padding:17px 16px; }
-  .hero-stat-row .count-digit { font-size:clamp(30px,2.9vw,42px); }
+.hero-highlights {
+  display:grid;
+  grid-template-columns:minmax(0,.76fr) minmax(0,1.24fr);
+  gap:clamp(12px,1.1vw,20px);
+  align-items:stretch;
+  min-width:0;
 }
-@media (min-width:701px) and (max-width:1100px) {
-  .campaign-hero { grid-template-columns:1fr; gap:clamp(9px,1.6vh,18px); }
-  .hero-stat-row { grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr); gap:12px; }
-  .hero-target-card { padding:clamp(12px,2vw,20px); }
-  .hero-target-card .metric-number { font-size:clamp(24px,3.5vw,39px); }
-  .hero-target-card .metric-copy { margin-top:12px; }
-  .hero-stat-row .countdown-panel { max-width:none; padding:clamp(14px,2vw,20px); }
-  .hero-stat-row .count-digit { font-size:clamp(30px,4.6vw,51px); }
-  .metric-files .metric-number { font-size:clamp(30px,4.1vw,48px); }
+.hero-highlights > * {min-width:0;}
+.hero-target-card {
+  min-height:0;
+  padding:clamp(17px,1.6vw,30px);
+  background:linear-gradient(135deg,#136e42 0%,#105b37 45%,#103725 100%);
+  border:1px solid #47b976;
+  box-shadow:inset 0 1px 0 #e2ffa229,0 12px 42px #061b1070;
+}
+.hero-target-card .metric-icon {background:#328c52;color:#e5ffa9;}
+.hero-target-card .metric-copy {margin-top:clamp(12px,2vh,24px);}
+.hero-target-card .metric-copy h2 {color:#d7f8db;font-size:clamp(10px,.88vw,14px);margin-bottom:9px;}
+.hero-target-card .metric-number {color:#d6ffa1;font-size:clamp(29px,2.55vw,55px);letter-spacing:-.065em;}
+.hero-target-card .metric-copy p {color:#aee5bf;margin-top:9px;}
+.hero-target-card .metric-eyebrow {color:#d6ffa1;}
+.hero-target-card::before {color:#d6ff9914;}
+.hero-highlights .countdown-panel {display:flex;flex-direction:column;justify-content:space-between;max-width:none;}
+.hero-highlights .countdown-units {margin:clamp(13px,1.7vw,28px) 0;}
+.hero-highlights .count-digit {font-size:clamp(27px,3.1vw,68px);}
+.hero-highlights .count-separator {font-size:clamp(18px,2vw,42px);}
+.metrics-grid {grid-template-columns:repeat(4,minmax(0,1fr));}
+.metric-files {
+  background:linear-gradient(141deg,#0d5a38 0%,#0b432d 65%,#123626 100%);
+  border-color:#32945c;
+  box-shadow:inset 0 1px #a1f3a132;
+}
+.metric-files .metric-number {color:#d8ff9d;font-size:clamp(38px,3vw,65px);}
+.metric-files .metric-copy h2 {color:#d2ffd8;}
+.metric-files .metric-icon {background:#2d8750;color:#d6ff99;}
+.balance-card {border-color:#32664c;}
+.balance-content {position:relative;z-index:1;margin-top:12px;min-width:0;}
+.balance-content h2 {font-size:clamp(10px,.79vw,13px);font-weight:800;letter-spacing:1.5px;color:#c3e5cd;margin:0 0 11px;}
+.balance-slots {display:grid;grid-template-columns:1fr 1fr;gap:8px;min-width:0;}
+.balance-slot {min-width:0;border:1px solid #2b5a42;border-radius:11px;padding:clamp(8px,.7vw,12px);background:#0b2b20b3;}
+.balance-label {display:block;font-size:clamp(7px,.54vw,9px);letter-spacing:.4px;line-height:1.35;color:#a8c9b7;font-weight:800;min-height:2.55em;}
+.balance-value {font:700 clamp(15px,1.26vw,25px)/1.2 var(--font-display);letter-spacing:-.07em;white-space:nowrap;min-width:0;margin-top:4px;font-variant-numeric:tabular-nums;}
+.balance-value > span {display:inline-flex;align-items:baseline;gap:3px;}
+.balance-value .empty-number {font-size:clamp(11px,.85vw,15px);white-space:normal;}
+.balance-collection {color:#e2ff9a;}
+.balance-files {color:#abffac;}
+
+/* Fit the two hero cards on laptops and tablets without squeezing countdown digits. */
+@media (max-width:1350px) {
+  .campaign-hero {grid-template-columns:minmax(0,.8fr) minmax(0,1.65fr);gap:18px;}
+  .hero-highlights {grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:10px;}
+  .hero-target-card {padding:clamp(11px,1.35vw,20px);}
+  .hero-target-card .metric-number {font-size:clamp(23px,2.5vw,36px);}
+  .hero-target-card .metric-icon {width:36px;height:36px;}
+  .hero-target-card .metric-eyebrow {font-size:7px;letter-spacing:.7px;}
+  .hero-highlights .countdown-panel {padding:clamp(12px,1.5vw,20px);}
+  .hero-highlights .count-digit {font-size:clamp(27px,2.9vw,43px);}
+  .hero-highlights .count-separator {font-size:clamp(18px,2vw,27px);}
+  .balance-slots {grid-template-columns:1fr;gap:5px;}
+  .balance-slot {padding:5px 9px;display:flex;justify-content:space-between;align-items:center;gap:6px;}
+  .balance-label {min-height:0;font-size:8px;}
+  .balance-value {font-size:clamp(14px,1.4vw,21px);margin-top:0;}
+}
+@media (max-width:1100px) {
+  .campaign-hero {grid-template-columns:minmax(0,1fr);gap:clamp(10px,2vh,20px);}
+  .hero-highlights {grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:12px;}
+  .hero-target-card .metric-number {font-size:clamp(29px,4vw,45px);}
+  .hero-highlights .count-digit {font-size:clamp(30px,4.8vw,53px);}
+  .metric-files .metric-number {font-size:clamp(32px,4.6vw,55px);}
+  .balance-slots {grid-template-columns:1fr 1fr;}
+  .balance-slot {display:block;padding:8px;}
+  .balance-label {min-height:2.45em;}
+  .balance-value {font-size:clamp(15px,2vw,23px);margin-top:5px;}
+}
+@media (min-width:951px) and (max-width:1100px) {
+  .balance-slots {grid-template-columns:1fr;}
+  .balance-slot {display:flex;align-items:center;justify-content:space-between;}
+  .balance-label {min-height:0;}
+  .balance-value {font-size:clamp(13px,1.7vw,18px);margin-top:0;}
 }
 @media (max-width:700px) {
-  .hero-stat-row { grid-template-columns:1fr; gap:clamp(7px,1.3vh,12px); }
-  .hero-target-card { min-height:0; padding:clamp(9px,2.7vw,15px); }
-  .hero-target-card .metric-heading .metric-icon { height:26px; width:26px; }
-  .hero-target-card .metric-copy { margin-top:5px; }
-  .hero-target-card .metric-copy h2 { font-size:clamp(8px,2vw,10px); margin-bottom:3px; }
-  .hero-target-card .metric-number { min-height:0; font-size:clamp(26px,6.8vw,38px); }
-  .hero-target-card .metric-copy p { font-size:clamp(8px,2vw,10px); margin-top:2px; }
-  .hero-stat-row .countdown-panel { padding:12px 14px; }
-  .hero-stat-row .countdown-units { margin:10px 0 9px; }
-  .hero-stat-row .count-digit { font-size:clamp(28px,7.4vw,43px); }
-  .metric-files .metric-number { font-size:clamp(20px,5.3vw,31px); }
-  .metric-balance-copy { margin-top:4px; }
-  .remaining-slots { gap:4px; }
-  .remaining-slot { padding:5px 6px; border-radius:6px; }
-  .remaining-label { font-size:clamp(6px,1.75vw,8px); letter-spacing:.25px; }
-  .remaining-value { font-size:clamp(11px,3.1vw,17px); margin-top:1px; }
-  .remaining-value .number-prefix { font-size:.55em; }
-  .remaining-value .empty-number { font-size:clamp(8px,2.2vw,12px); }
-  .metric-balance .metric-copy p { display:none; }
+  .campaign-hero {grid-template-columns:1fr;gap:9px;}
+  .hero-highlights {grid-template-columns:1fr 1.25fr;gap:8px;}
+  .hero-target-card {min-height:0;padding:10px;}
+  .hero-target-card .metric-icon {width:27px;height:27px;}
+  .hero-target-card .metric-icon svg {width:16px;height:16px;}
+  .hero-target-card .metric-eyebrow {font-size:6px;letter-spacing:.3px;}
+  .hero-target-card .metric-copy {margin-top:8px;}
+  .hero-target-card .metric-copy h2 {font-size:8px;letter-spacing:.5px;margin-bottom:3px;}
+  .hero-target-card .metric-number {font-size:clamp(18px,5vw,31px);min-height:23px;}
+  .hero-target-card .metric-copy p {font-size:8px;line-height:1.2;margin-top:5px;}
+  .hero-highlights .countdown-panel {padding:10px;}
+  .hero-highlights .countdown-header>span:first-child {font-size:7px;letter-spacing:.5px;gap:6px;}
+  .hero-highlights .countdown-decoration {font-size:15px;}
+  .hero-highlights .countdown-units {margin:8px 0;}
+  .hero-highlights .count-digit {font-size:clamp(18px,4.65vw,31px);}
+  .hero-highlights .count-label {font-size:7px;letter-spacing:.45px;margin-top:4px;}
+  .hero-highlights .count-separator {font-size:15px;right:0;}
+  .hero-highlights .countdown-bottom {padding-top:6px;}
+  .hero-highlights .countdown-bottom>span:first-child {font-size:8px;}
+  .metric-files .metric-number {font-size:clamp(24px,5.8vw,35px);}
+  .balance-content {margin-top:5px;}
+  .balance-content h2 {font-size:8px;margin-bottom:5px;letter-spacing:.65px;}
+  .balance-slots {grid-template-columns:1fr;gap:4px;}
+  .balance-slot {display:block;padding:4px 6px;border-radius:7px;}
+  .balance-label {font-size:7px;min-height:0;}
+  .balance-value {font-size:clamp(13px,3.2vw,20px);margin-top:1px;}
+  .balance-value .empty-number {font-size:11px;}
+  .balance-card .metric-heading .metric-icon {width:25px;height:25px;}
+  .balance-card .metric-heading .metric-icon svg {width:15px;height:15px;}
+}
+@media (max-width:380px) {
+  .hero-highlights {grid-template-columns:1fr;gap:7px;}
+  .hero-target-card {min-height:87px;}
+  .hero-target-card .metric-copy {margin-top:5px;}
+  .hero-target-card .metric-number {font-size:27px;}
+  .hero-highlights .count-digit {font-size:clamp(27px,8.3vw,37px);}
 }
 @media (min-width:600px) and (max-height:550px) and (orientation:landscape) {
-  .campaign-hero { grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:10px; }
-  .hero-stat-row { grid-template-columns:1fr; gap:6px; }
-  .hero-target-card { min-height:0; padding:5px 9px; border-radius:10px; }
-  .hero-target-card .metric-heading { display:none; }
-  .hero-target-card .metric-copy { margin-top:0; }
-  .hero-target-card .metric-copy h2 { font-size:8px; margin:0 0 1px; }
-  .hero-target-card .metric-number { font-size:clamp(17px,2.3vw,23px); }
-  .hero-target-card .metric-copy p { display:none; }
-  .hero-stat-row .countdown-panel { padding:8px 10px; }
-  .hero-stat-row .countdown-units { margin:6px 0; }
-  .hero-stat-row .count-digit { font-size:clamp(23px,3.4vw,32px); }
-  .hero-stat-row .count-separator { font-size:16px; }
-  .metric-files .metric-number { font-size:clamp(16px,2.5vw,25px); }
-  .metric-balance .metric-heading { display:none; }
-  .metric-balance-copy { margin:0; }
-  .metric-balance .metric-copy h2 { font-size:8px; margin-bottom:2px; }
-  .remaining-slots { gap:3px; }
-  .remaining-slot { padding:3px 5px; }
-  .remaining-label { font-size:6px; }
-  .remaining-value { font-size:clamp(12px,1.7vw,16px); }
+  .campaign-hero {grid-template-columns:minmax(0,.65fr) minmax(0,1.35fr);gap:10px;}
+  .hero-highlights {grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:7px;}
+  .hero-target-card {padding:7px;}
+  .hero-target-card .metric-heading .metric-icon {width:21px;height:21px;}
+  .hero-target-card .metric-heading .metric-icon svg {width:13px;height:13px;}
+  .hero-target-card .metric-eyebrow {font-size:6px;letter-spacing:0;}
+  .hero-target-card .metric-copy {margin-top:3px;}
+  .hero-target-card .metric-copy h2 {font-size:7px;letter-spacing:.2px;margin:0 0 3px;}
+  .hero-target-card .metric-number {font-size:clamp(15px,2.3vw,25px);min-height:18px;}
+  .hero-target-card .metric-copy p {font-size:7px;line-height:1.1;margin-top:3px;}
+  .hero-highlights .countdown-panel {padding:8px;}
+  .hero-highlights .countdown-header>span:first-child {font-size:7px;letter-spacing:0;}
+  .hero-highlights .countdown-decoration {font-size:13px;}
+  .hero-highlights .countdown-units {margin:5px 0;}
+  .hero-highlights .count-digit {font-size:clamp(18px,2.8vw,28px);}
+  .hero-highlights .count-label {font-size:6px;margin-top:3px;}
+  .hero-highlights .count-separator {font-size:13px;right:0;}
+  .hero-highlights .countdown-bottom {padding-top:4px;}
+  .hero-highlights .countdown-bottom>span:first-child {font-size:7px;}
+  .metrics-grid {grid-template-columns:repeat(4,minmax(0,1fr));}
+  .balance-slots {grid-template-columns:1fr;gap:3px;}
+  .balance-slot {display:flex;align-items:center;justify-content:space-between;padding:3px 5px;}
+  .balance-label {font-size:6px;}
+  .balance-value {font-size:clamp(12px,1.7vw,16px);margin-top:0;}
+  .balance-card .metric-heading .metric-icon {width:22px;height:22px;}
 }
